@@ -12,8 +12,7 @@ function transformStateWithClones(state, actions) {
   let currentState = { ...state }; // Start with the initial state copy
 
   actions.forEach((action) => {
-    // Create a copy of the current state to avoid mutating the original state
-    let stateCopy = { ...currentState };
+    let stateCopy = JSON.parse(JSON.stringify(currentState)); // Deep copy
 
     // Handle each action type
     switch (action.type) {
@@ -36,9 +35,9 @@ function transformStateWithClones(state, actions) {
         throw new Error(`Unknown action type: ${action.type}`);
     }
 
-    // Update currentState to be the new state and push to history
+    // Update currentState to be the new state and push a copy to history
     currentState = stateCopy;
-    stateHistory.push(stateCopy);
+    stateHistory.push(JSON.parse(JSON.stringify(stateCopy)));
   });
 
   return stateHistory;
